@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFT and AIMD Studies of MoO3 Structural Disorder | Aryan</title>
+
+<style>
+:root{--ink:#171717;--muted:#666;--line:#d7d7d7;--soft:#f5f5f3;--paper:#fff;--max:1100px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:82px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Times New Roman",Times,serif;font-size:17px;line-height:1.6}
+a{color:inherit;text-underline-offset:3px}
+a:hover{opacity:.7}
+.page{width:min(var(--max),calc(100% - 48px));margin:0 auto}
+.topline{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);padding:0;min-height:74px;display:flex;justify-content:space-between;align-items:center;gap:28px}
+.brand{font-size:25px;font-weight:normal;white-space:nowrap}
+.nav{display:flex;gap:25px;flex-wrap:wrap}
+.nav a{font-size:15px;text-decoration:none;padding:4px 0;border-bottom:1px solid transparent}
+.nav a:hover{border-bottom-color:#111;opacity:1}
+.back-link{display:inline-block;margin:22px 0 14px;font-size:13px;text-decoration:none;color:var(--muted)}
+.eyebrow,.section-number{font-size:12px;text-transform:uppercase;letter-spacing:.13em;font-weight:bold;color:var(--muted)}
+h1{font-size:clamp(36px,4.5vw,55px);font-weight:normal;letter-spacing:-.035em;line-height:1.03;margin:12px 0 16px;max-width:900px}
+h2{font-size:clamp(25px,2.8vw,32px);font-weight:normal;letter-spacing:-.025em;line-height:1.15;margin:0 0 10px}
+h3{font-size:19px;font-weight:normal;line-height:1.25;margin:0 0 10px}
+h4{font-size:16px;font-weight:normal;margin:0 0 8px}
+p{margin:0 0 12px}
+.subtitle{font-size:18px;line-height:1.55;max-width:700px;color:#444;margin:0 0 18px}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 0}
+.tag{font-size:12px;border:1px solid #ccc;padding:3px 8px;border-radius:2px}
+.hero{padding:22px 0 28px;border-bottom:1px solid var(--line)}
+.hero-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:32px;align-items:center}
+.hero-copy{min-width:0}
+.hero-image-slot{width:100%;min-height:320px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff}
+.hero-image-slot img{display:block;width:100%;height:auto;max-height:440px;object-fit:contain}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);gap:28px;align-items:start;margin-top:26px;padding-top:24px;border-top:1px solid var(--line)}
+.hero-facts{border:1px solid var(--line);padding:16px}
+.fact{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid #ddd;font-size:15px}
+.fact:last-child{border-bottom:0}
+.fact span:first-child{color:var(--muted)}
+.section-nav{display:flex;flex-wrap:wrap;gap:18px;border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:0}
+.section-nav a{font-size:13px;text-decoration:none;color:#444}
+section{padding:34px 0;border-bottom:1px solid var(--line);scroll-margin-top:82px}
+.section-number{margin-bottom:8px}
+.lead{max-width:850px;font-size:17px;color:#444;margin-bottom:18px}
+.grid-2,.grid-3,.grid-4{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.panel{border:1px solid var(--line);padding:16px;min-width:0}
+.panel p:last-child{margin-bottom:0}
+.figure{border:1px solid var(--line);margin:0;min-width:0}
+.figure img{width:100%;display:block;object-fit:contain;background:#fafafa;aspect-ratio:4/3}
+.figure figcaption{border-top:1px solid #ddd;padding:10px 12px;font-size:14px;color:#444}
+.placeholder{min-height:190px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;padding:22px;text-align:center;background:#fafafa;color:#555;font-size:15px}
+.placeholder strong{color:#111}
+.note{border-left:3px solid #111;padding:10px 15px;margin:18px 0;background:#f7f7f7}
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:10px 11px;text-align:left;vertical-align:top;line-height:1.5}
+th{background:var(--soft);font-weight:bold;color:#555;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.workflow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:22px 0}
+.step{border:1px solid #ccc;padding:14px 12px;min-width:0;position:relative}
+.step-number{font-size:12px;color:var(--muted);margin-bottom:8px;letter-spacing:.08em}
+.step h4{line-height:1.25}
+.step p{font-size:14px;color:#444}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:42%;z-index:2;background:white;padding:0 2px}
+.plot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.plot-card{border:1px solid var(--line);padding:14px;min-width:0}
+.plot-card .placeholder{min-height:220px;margin-bottom:12px}
+.plot-card h3{font-size:19px}
+.equation{padding:13px;background:#f6f6f6;border:1px solid #ddd;overflow-wrap:anywhere;font-size:17px;margin:12px 0}
+.status{display:inline-block;border:1px solid #888;padding:3px 8px;font-size:12px}
+ul,ol{padding-left:22px;margin:8px 0 14px}
+li{margin:5px 0;padding-left:2px}
+.reference-list li{margin-bottom:13px;font-size:14px;color:#444}
+.footer{padding:22px 0 35px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#555;font-size:13px}
+@media(max-width:850px){.page{width:calc(100% - 40px)}.topline{gap:18px;padding:12px 0}.hero-layout{grid-template-columns:1fr;gap:22px}.hero-image-slot{min-height:240px}.workflow{grid-template-columns:1fr}.step:not(:last-child)::after{content:"↓";top:auto;bottom:-15px;right:50%}.grid-3,.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.page{width:calc(100% - 30px)}.topline{align-items:flex-start;flex-direction:column;gap:10px}.nav{gap:10px 18px}.nav a{font-size:14px}.hero-grid,.grid-2,.grid-3,.grid-4,.plot-grid{grid-template-columns:1fr}h1{font-size:36px}h2{font-size:27px}section{padding:26px 0}table{display:block;overflow-x:auto;white-space:normal}.fact{gap:12px}}
+@media print{.topline,.section-nav,.back-link{display:none}.page{width:100%}section{break-inside:avoid;padding:22px 0}}
+
+
+.analysis-overview {
+    margin: 28px auto 0;
+    max-width: 820px;
+    width: 100%;
+}
+
+.analysis-overview-image {
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #dedede;
+}
+
+.analysis-overview-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.analysis-overview figcaption {
+    max-width: 760px;
+    margin-top: 10px auto 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #555;
+}
+
+@media (max-width: 700px) {
+    .analysis-overview {
+        max-width: 100%;
+        margin-top: 18px;
+    }
+
+    .analysis-overview figcaption {
+        font-size: 13px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="page topline">
+    <div class="brand">aryan.phd</div>
+    <nav class="nav" aria-label="Main navigation">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../notebook.html">Notebook</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+</header>
+
+<main class="page">
+
+<a class="back-link" href="../research.html">← Back to research archive</a>
+
+<header class="hero">
+    <div class="hero-layout">
+        <div class="hero-copy">
+            <div class="eyebrow">Research project · First-principles simulation · Oxide structure</div>
+            <h2>DFT and AIMD Studies of MoO₃ Structural Disorder</h2>
+            <p class="subtitle">
+                First-principles modeling of molybdenum trioxide to investigate
+                structural relaxation, local Mo–O coordination, and the evolution
+                of atomic environments in crystalline and potentially disordered
+                configurations.
+            </p>
+            <div class="meta">
+                <span class="tag">Density Functional Theory</span>
+                <span class="tag">Ab Initio Molecular Dynamics</span>
+                <span class="tag">Quantum ESPRESSO</span>
+                <span class="tag">PBE–PAW</span>
+                <span class="tag">Structural Analysis</span>
+            </div>
+        </div>
+
+            <div class="hero-image-slot">
+               <figure class="hero-visual">
+             <img src="../assets/images/AIMD.jpg"
+           alt=""
+           class="hero-image" loading="eager">
+             </figure>
+            </div>
+    </div>
+    <div class="hero-grid">
+        <div>
+            <h3>Research objective</h3>
+            <p>
+                Establish a first-principles workflow for relaxing MoO₃
+                structures and examining local atomic environments. The
+                broader aim is to determine which structural descriptors
+                can distinguish crystalline order .
+            </p>
+            <h3>Central questions</h3>
+            <ul>
+                <li>How do local Mo–O distances and coordination environments change?</li>
+                <li>How does the pair distribution function evolve with structural disorder?</li>
+                <li>Which temperature and energy signatures can be extracted from the AIMD trajectory?</li>
+                <li>Are final structures sufficiently equilibrated and statistically representative?</li>
+            </ul>
+        </div>
+        <aside class="hero-facts">
+            <h3>Calculation overview</h3>
+            <div class="fact"><span>Primary material</span><strong>α-MoO₃</strong></div>
+            <div class="fact"><span>Electronic code</span><strong>PWscf / QE</strong></div>
+            <div class="fact"><span>QE model sizes</span><strong>144 and 256 atoms</strong></div>
+            <div class="fact"><span>Inspected output</span><strong>300 K stage</strong></div>
+            <div class="fact"><span>Project status</span><strong>Ongoing</strong></div>
+        </aside>
+    </div>
+</header>
+
+<nav class="section-nav" aria-label="Project sections">
+    <a href="#models">Atomic models</a>
+    <a href="#methods">Methods</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#analysis">Structural analysis</a>
+    <a href="#results">Results and status</a>
+    <a href="#contribution">My contribution</a>
+    <a href="#references">References</a>
+</nav>
+
+<section id="models">
+    <div class="section-number">01 / ATOMIC MODELS</div>
+    <h2>Crystalline reference and disordered configurations</h2>
+
+    <p class="lead">
+        The crystalline structure provides the reference for assessing
+        changes in local coordination, bond-length distributions, and
+        medium-range order. Only structures extracted from verified
+        calculation files should be presented as computed results.
+    </p>
+
+    
+<div class="grid-2">
+    <figure class="figure">
+        <img
+            src="../assets/images/before_melt-quench.png"
+            alt="Initial crystalline MoO3 structure before melt-quench"
+            class="project-image"
+        >
+        <figcaption>
+            Reference structure before melt–quench, showing the side view
+            (x–z projection) and top view (x–y projection) of the initial
+            crystalline MoO₃ configuration.
+        </figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img
+            src="../assets/images/after melt-quench.png"
+            alt="MoO3 structure after melt-quench, Stage 6 final frame"
+            class="project-image"
+        >
+        <figcaption>
+            MoO₃ configuration after melt–quench (Stage 6 final frame),
+            showing the side view (x–z projection) and top view
+            (x–y projection) of the final configuration.
+        </figcaption>
+    </figure>
+</div>
+
+
+    <h3 style="margin-top:24px;">Model inventory</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>Composition</th>
+                <th>Workflow</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>144-atom MoO₃</td>
+                <td>36 Mo + 108 O</td>
+                <td>QE first-principles structural / MD calculations</td>
+                <!-- <td>Output inspected; completion must be confirmed per run</td> -->
+            </tr>
+            <tr>
+                <td>256-atom MoO₃</td>
+                <td>64 Mo + 192 O</td>
+                <td>Separate staged QE workflow; associated LAMMPS pilot also exists</td>
+                <!-- <td>Verify each code branch and stage independently</td> -->
+            </tr>
+            <tr>
+                <td>1024-atom MoO₃</td>
+                <td>256 Mo + 768 O</td>
+                <td>Classical LAMMPS / ReaxFF branch</td>
+                <!-- <td>Do not label as a QE result</td> -->
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="methods">
+    <div class="section-number">02 / FIRST-PRINCIPLES METHODS</div>
+    <h2>Quantum ESPRESSO setup</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Inspected 144-atom output</th>
+                <th>Technical purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Code / executable</td>
+                <td>Quantum ESPRESSO PWscf v8.0dev</td>
+                <td>Plane-wave electronic-structure calculation</td>
+            </tr>
+            <tr>
+                <td>Exchange–correlation</td>
+                <td>PBE (GGA)</td>
+                <td>Approximation for the exchange–correlation energy</td>
+            </tr>
+            <tr>
+                <td>Mo pseudopotential</td>
+                <td>Mo.pbe-spn-kjpaw_psl.1.0.0.UPF</td>
+                <td>PAW representation of the Mo ionic potential</td>
+            </tr>
+            <tr>
+                <td>O pseudopotential</td>
+                <td>O.pbe-n-kjpaw_psl.1.0.0.UPF</td>
+                <td>PAW representation of the O ionic potential</td>
+            </tr>
+            <tr>
+                <td>Wavefunction cutoff</td>
+                <td>60 Ry</td>
+                <td>Plane-wave basis-set limit</td>
+            </tr>
+            <tr>
+                <td>Charge-density cutoff</td>
+                <td>480 Ry</td>
+                <td>Charge-density and augmentation representation</td>
+            </tr>
+            <tr>
+                <td>SCF threshold</td>
+                <td>1.0 × 10⁻⁶ Ry</td>
+                <td>Electronic self-consistency criterion</td>
+            </tr>
+            <tr>
+                <td>Mixing parameter</td>
+                <td>0.30</td>
+                <td>SCF charge-density mixing</td>
+            </tr>
+            <tr>
+                <td>Thermostat target</td>
+                <td>300 K</td>
+                <td>Temperature target in the inspected MD stage</td>
+            </tr>
+            <tr>
+                <td>MD ensemble</td>
+                <td>Nosé temperature control is reported</td>
+                <td>Thermostatted ionic dynamics</td>
+            </tr>
+            <tr>
+                <td>Time step / k-point grid</td>
+                <td>Confirm from the matching input file</td>
+                <td>Reported for reproducibility</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+<section id="workflow">
+    <div class="section-number">03 / COMPUTATIONAL WORKFLOW</div>
+    <h2>From initial structure to structural descriptors</h2>
+
+    <div class="workflow">
+        <div class="step">
+            <div class="step-number">STEP 01</div>
+            <h4>Structure preparation</h4>
+            <p>Validate stoichiometry, atom count, cell dimensions, coordinates, and periodic boundaries.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">STEP 02</div>
+            <h4>SCF / relaxation</h4>
+            <p>Converge the electronic density and relax ions using the selected QE settings.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">STEP 03</div>
+            <h4>AIMD stages</h4>
+            <p>Check the actual temperature schedule, ensemble, timestep, equilibration, and trajectory continuity.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">STEP 04</div>
+            <h4>Final configuration</h4>
+            <p>Identify the final frame and establish whether the structure is quenched, equilibrated, or only a test snapshot.</p>
+        </div>
+
+        <div class="step">
+            <div class="step-number">STEP 05</div>
+            <h4>Analysis</h4>
+            <p>Calculate RDFs, bond lengths, coordination statistics, and thermal observables from verified frames.</p>
+        </div>
+    </div>
+
+   
+</section>
+<section id="analysis">
+    <div class="section-number">04 / STRUCTURAL ANALYSIS</div>
+    <h2>Quantifying local order and disorder</h2>
+
+    <figure class="analysis-overview">
+        <div class="analysis-overview-image">
+            <img
+                src="../assets/images/MoO3_structural_analysis_overview.png"
+                alt="MoO3 structural analysis showing radial distribution functions, Mo–O bond lengths, coordination numbers, bond-angle distributions, and structure-factor plots"
+                loading="lazy"
+            >
+        </div>
+
+        <figcaption>
+            Structural analysis of the 144-atom MoO₃ model, including
+            pair correlations, Mo–O bond lengths, local coordination,
+            bond-angle distributions, and scattering-related plots.
+        </figcaption>
+    </figure>
+</section>
+</section>
+
+
+
+
+<section id="results">
+    <div class="section-number">05 / RESULTS AND CALCULATION STATUS</div>
+    <h2>Current Report </h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Result item</th>
+                <th>Current evidence</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>144-atom QE setup</td>
+                <td>Output excerpt confirms 144 atoms, 60/480 Ry cutoffs, PBE, named Mo/O PAW files, SCF threshold, and a 300 K Nosé-controlled stage.</td>
+            </tr>
+            <tr>
+                <td>256-atom QE melt–quench workflow</td>
+                <td>Staged input/output files are documented in the project materials.</td>
+            </tr>
+            <tr>
+                <td>RDF and bond statistics</td>
+                <td>Require verified coordinates or trajectory and a reproducible analysis script.</td>
+            </tr>
+            <tr>
+                <td>Thermal evolution</td>
+                <td>Requires the matching time series and stage definitions.</td>
+            </tr>
+            <tr>
+                <td>Amorphous structure claim</td>
+                <td>Requires a validated final structure and structural evidence of disorder.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+<section id="contribution">
+    <div class="section-number">06 / CONTRIBUTION</div>
+    <h2>Contribution</h2>
+
+    <div class="grid-2">
+        <div class="panel">
+            <h3>Structure and calculation setup</h3>
+            <ul>
+                <li>Prepared and organized MoO₃ atomic configurations for computational study.</li>
+                <li>Worked with QE input files, atomic species, pseudopotential paths, cutoffs, and convergence settings.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Simulation workflow and troubleshooting</h3>
+            <ul>
+                <li>Worked on first-principles structural relaxation and AIMD stages.</li>
+                <li>Examined output logs, convergence messages, and calculation settings.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Structural analysis</h3>
+            <ul>
+                <li>Defined the analysis pathway for RDFs, bond lengths, coordination, and thermal observables.</li>
+                <li>Identified traceable scripts, explicit cutoffs, and documented frame selection.</li>
+            </ul>
+        </div>
+
+        <div class="panel">
+            <h3>Reproducibility and reporting</h3>
+            <ul>
+                <li>Tracked calculation inputs and corresponding output logs.</li>
+                <li>Kept QE first-principles calculations distinct from LAMMPS classical MD.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="references">
+    <div class="section-number">07 / REFERENCES AND RESOURCES</div>
+    <h2>Methods and software references</h2>
+
+    <ol class="reference-list">
+        <li>
+            P. Giannozzi et al.,
+            “QUANTUM ESPRESSO: a modular and open-source software project
+            for quantum simulations of materials,”
+            <em>Journal of Physics: Condensed Matter</em>, 21, 395502 (2009).
+            <a href="https://doi.org/10.1088/0953-8984/21/39/395502"
+               target="_blank" rel="noopener noreferrer">https://doi.org/10.1088/0953-8984/21/39/395502</a>
+        </li>
+
+        <li>
+            P. Giannozzi et al.,
+            “Advanced capabilities for materials modelling with Quantum ESPRESSO,”
+            <em>Journal of Physics: Condensed Matter</em>, 29, 465901 (2017).
+            <a href="https://doi.org/10.1088/1361-648X/aa8f79"
+               target="_blank" rel="noopener noreferrer">https://doi.org/10.1088/1361-648X/aa8f79</a>
+        </li>
+
+        <li>
+            J. P. Perdew, K. Burke, and M. Ernzerhof,
+            “Generalized Gradient Approximation Made Simple,”
+            <em>Physical Review Letters</em>, 77, 3865 (1996).
+            <a href="https://doi.org/10.1103/PhysRevLett.77.3865"
+               target="_blank" rel="noopener noreferrer">https://doi.org/10.1103/PhysRevLett.77.3865</a>
+        </li>
+
+        <li>
+            P. E. Blöchl,
+            “Projector augmented-wave method,”
+            <em>Physical Review B</em>, 50, 17953 (1994).
+            <a href="https://doi.org/10.1103/PhysRevB.50.17953"
+               target="_blank" rel="noopener noreferrer">https://doi.org/10.1103/PhysRevB.50.17953</a>
+        </li>
+    </ol>
+
+    
+</section>
+
+<footer class="footer">
+    <div>aryan.phd · Research portfolio</div>
+    <div>Project details · October 2026</div>
+    <a href="../research.html">← Research archive</a>
+</footer>
+
+</main>
+</body>
+</html>
